@@ -1,11 +1,12 @@
 # LNCD "PET" 
 
 ## Data
-`data/merged_data.csv` is an ultra-wide format CSV with a row per participant visit.
-The thousands of columns include individual measures for various surveys (behavioral) and brain (MR and PET scan) data.
+`data/wide.csv` is a wide (547 column) format CSV with a row per participant visit.
+The columns include individual measures for various surveys (behavioral) and brain (MR and PET scan) data.
 
 `data/conn_adj.csv` is another row per visit CSV. Columns are the widened (2d to 1d) upper triangle of each visits fisher-z transformed correlation adjacency matrix. This is the mean BOLD time series with each of 23 ROIS correlated to one another ( 23 choose 2 = 253).
 
+`data/mtr_striatum_258_QC.csv` - MTR ROI mean and voxel coverage count ("NZmean") and QC (manual quality check binarized 1=pass, 0=fail)
 ## Code
 
 `pet_data.py` quick attempt at building pyradigm data structures
@@ -30,6 +31,9 @@ pet.add_subset_to(upps, '^uppsp_')
 upps_df = pet.col_subset('^uppsp_')
 upps_df.columns # ['sesid', 'age', 'upps_pre', 'upps_pers', 'upps_ss', 'upps_pu', 'upps_tot', 'upps_negurg']
 
+# also include other confound columns (works same for add_subest_to and col_subset)
+upps_df = pet.col_subset('sex|^uppsp_')
+upps_df.columns # ['sesid', 'age', 'sex, 'upps_pre', ...]
 
 ```
 
