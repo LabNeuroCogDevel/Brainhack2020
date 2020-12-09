@@ -6,7 +6,17 @@ The columns include individual measures for various surveys (behavioral) and bra
 
 `data/mtr_striatum_258_QC.csv` - MTR ROI mean and voxel coverage count ("NZmean") and QC (manual quality check binarized 1=pass, 0=fail)
 
-`data/conn_adj*.csv` row per visit CSV files. A file per MR task type: rest1, task chunked background, rest2. Columns are the widened (2d to 1d) upper triangle of each visits fisher-z transformed correlation adjacency matrix. This is the mean BOLD time series with each of 23 ROIS correlated to one another ( 23 choose 2 = 253). Fixation from 6 consecutive task aquistions are extracted and combined to make the "background" set. 
+`data/conn_adj*.csv` row per visit CSV files. A file per MR task type: rest1, task background, rest2. Columns are the widened (2d to 1d) upper triangle of each visits fisher-z transformed correlation adjacency matrix. This is the mean BOLD time series with each of 23 ROIS correlated to one another ( 23 choose 2 = 253). Fixation from 6 consecutive task aquistions are extracted and combined to make the "background" set. 
+
+### wide.csv
+
+  | prefix       | desc|
+  | ------       | ---- |
+  | `tat2*`      | time average T2* (inv iron concentration?) |
+  | `frogET*`    | anti saccade task performance (esp correct: `ncor`, `corlat`, `corsd` for reward and neutral)  |
+  | `RT18.Score` | Risk taking measure (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3160867/)|
+  | `UPPSP*`     | impulsivity (http://www.impulsivity.org/measurement/UPPS_P )|
+  | `ysrasr.*`   | DSM-oriented scales (http://fcon_1000.projects.nitrc.org/indi/enhanced/assessments/asr.html) |
 
 ## Code
 
