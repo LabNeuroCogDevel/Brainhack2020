@@ -4,9 +4,10 @@
 `data/wide.csv` is a wide (547 column) format CSV with a row per participant visit.
 The columns include individual measures for various surveys (behavioral) and brain (MR and PET scan) data.
 
-`data/conn_adj.csv` is another row per visit CSV. Columns are the widened (2d to 1d) upper triangle of each visits fisher-z transformed correlation adjacency matrix. This is the mean BOLD time series with each of 23 ROIS correlated to one another ( 23 choose 2 = 253).
-
 `data/mtr_striatum_258_QC.csv` - MTR ROI mean and voxel coverage count ("NZmean") and QC (manual quality check binarized 1=pass, 0=fail)
+
+`data/conn_adj*.csv` row per visit CSV files. A file per MR task type: rest1, task chunked background, rest2. Columns are the widened (2d to 1d) upper triangle of each visits fisher-z transformed correlation adjacency matrix. This is the mean BOLD time series with each of 23 ROIS correlated to one another ( 23 choose 2 = 253). Fixation from 6 consecutive task aquistions are extracted and combined to make the "background" set. 
+
 ## Code
 
 `pet_data.py` quick attempt at building pyradigm data structures

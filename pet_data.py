@@ -140,15 +140,7 @@ class PET:
         age = self.age_lookup.get(sid)
         return (sid, age)
     
-    def add_samplet_to(self, ds, roi, f):
-        (sid, age) = self.file_info(f)
-        # likely 253 roi-roi connectivity pairs
-        v = roi.extract_feats(f)
-        ds.add_samplet(samplet_id=sid, target=age,
-                       features=v, feature_names=roi.feat_names,
-                       overwrite=True) 
-
-    def all_adj_into(self, ds, roi):
+    def all_adj_into(self, ds, roi, outcsv=None):
         """
         functional connectivity adjecency matrices (scaled(?), center diag == 15)
         into pyradigm structure
@@ -159,10 +151,26 @@ class PET:
             dataset to add samplets to
         roi : ROI_FC
             ROI_FC object pointing to adj matrices and roi labels
+        outcsv : str (path)
+           write out to specified csv file
         """
+
+        # also write to csv file
+        outcsv = open(outcsv,'w')
+        outline = ",".join(["sesid","age", *roi.names])
+        outcsv.write(outline+"\n")
+
         for f in roi.all_files():
             #print(f)
-            self.add_samplet_to(ds, roi, f)
+            (sid, age) = self.file_info(f)
+            v = roi.extract_feats(f)
+
+            ds.add_samplet(samplet_id=sid, target=age,
+                        features=v, feature_names=roi.feat_names,
+                        overwrite=True) 
+            outcsv.write(",".join([str(x) for x in [sid,age,*v]])+"\n")
+
+        outcsv.close()
 
 def pyradigms_from_adj(main_data):
     """
@@ -215,7 +223,7 @@ def pyradigms_from_adj(main_data):
     # to create each samplet that composes each (bkgrd,rest1,2) of the connectivity datasets
     for k in fc_globs.keys():
         roi = ROI_FC(fc_globs[k], roi_names)
-        main_data.all_adj_into(FCds[k], roi)
+        main_data.all_adj_into(FCds[k], roi, f'data/conn_adj_{k}.csv')
     
     return FCds
 
