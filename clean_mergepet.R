@@ -8,5 +8,7 @@ keep_col_regex <- 'lunaid|^age|^visitnum|^sex|vdate|behdatestr|dtbzdate|^fd|upps
 
 read.csv('/Volumes/Phillips/mMR_PETDA/scripts/merged_data.csv') %>%
   select(matches(keep_col_regex)) %>%
-  write.csv('data/wide.csv')
+  mutate(sesid=glue::glue("{lunaid}_{visitnum}")) %>%
+  filter(!is.na(age)) %>%
+  write.csv('data/wide.csv', row.names=F, quote=F)
 

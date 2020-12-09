@@ -17,7 +17,7 @@ per subject tat2 3d nii.gz images are on google dirve:
 
   | prefix       | desc|
   | ------       | ---- |
-  | `tat2*`      | time average T2* (inv iron concentration?) |
+  | `tat2*`      | time average T2* (proxy for iron?) |
   | `frogET*`    | anti saccade task performance (esp correct: `ncor`, `corlat`, `corsd` for reward and neutral)  |
   | `RT18.Score` | Risk taking measure (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3160867/)|
   | `UPPSP*`     | impulsivity (http://www.impulsivity.org/measurement/UPPS_P )|
@@ -45,11 +45,11 @@ pet = PET('data/merged_data.csv')
 ##  get sesid, age, and all the uppsp measures
 
 # pyradigm
-upps = RegrDataset()                                                                                           
+upps = RegrDataset()
 upps.description = "Urgency, Premeditation (lack of), Perseverance (lack of), Sensation Seeking, Positive Urgency, Impulsive Behavior Scale"
 pet.add_subset_to(upps, '^uppsp_') 
 # Urgency, Premeditation (lack of), Perseverance (lack of), Sensation Seeking, Positive Urgency, Impulsive Behavior Scale 
-# 337 samplets, 6 features  
+# 337 samplets, 6 features
 
 # or as dataframe
 upps_df = pet.col_subset('^uppsp_')
