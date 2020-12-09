@@ -157,7 +157,7 @@ class PET:
 
         # also write to csv file
         outcsv = open(outcsv,'w')
-        outline = ",".join(["sesid","age", *roi.names])
+        outline = ",".join(["sesid","age", *roi.feat_names])
         outcsv.write(outline+"\n")
 
         for f in roi.all_files():
