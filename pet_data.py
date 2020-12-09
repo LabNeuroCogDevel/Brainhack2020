@@ -56,11 +56,11 @@ class PET:
       * pyradigm datasets from subset of metrics
         (e.g. only 'uppsp' related measures)
     """
-    def __init__(self, csv='data/merged_data.csv'):
+    def __init__(self, csv='data/wide.csv'):
         # very very wide csv file. 
         # also has id and age lookup
         self.widedf = read_csv(csv)
-        # widedf.shape # (384, 6986)
+        # widedf.shape # previosly (384, 6986). now (384, 547)
 
         # add sessid
         # will eventaully be added to merged_data.csv from R code.
@@ -220,7 +220,7 @@ def pyradigms_from_adj(main_data):
     return FCds
 
 if __name__ == "__main__":
-    main_data = PET('data/merged_data.csv')
+    main_data = PET('data/wide.csv')
     # functional connectivity ROIs are the same across background and rest
     # but the location of the adj files are not
 
