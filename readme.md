@@ -39,7 +39,7 @@ np_regress -y data/conn_bkgrd_subset.pkl --impute_strategy most_frequent -e rand
 ```python
 from pyradigm import RegressionDataset as RegrDataset
 from pet_data import PET
-pet = PET('data/merged_data.csv')
+pet = PET('data/wide.csv')
 # see pet.widedf.shape: 384 visits with 6,987 measures
 
 ##  get sesid, age, and all the uppsp measures
