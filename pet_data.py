@@ -233,6 +233,14 @@ if __name__ == "__main__":
     # but the location of the adj files are not
 
     FCds = pyradigms_from_adj(main_data)
+    # save as pickle to import instead of aviable csv files
+    for k in FCds.keys():
+        FCds[k].save(f'data/conn_{k}.pkl') 
+    # reloaded = RegrDataset('data/conn_rest1.pkl')
+    # assert reloaded == FCds['rest1']
+    #
+    # 20201209 currently fails!! why?
+    # > differing data for the samplet ids.                                                                                                                                          
 
     upps = RegrDataset()
     upps.description = "Urgency, Premeditation (lack of), Perseverance (lack of), Sensation Seeking, Positive Urgency, Impulsive Behavior Scale"
