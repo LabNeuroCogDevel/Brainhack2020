@@ -1,4 +1,4 @@
-# LNCD "PET" 
+# LNCD PET tat2
 
 ## Data
  * `data/wide.csv` is a wide (547 column) format CSV with a row per participant visit.
