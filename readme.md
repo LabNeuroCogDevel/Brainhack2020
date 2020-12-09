@@ -1,12 +1,14 @@
 # LNCD "PET" 
 
 ## Data
-`data/wide.csv` is a wide (547 column) format CSV with a row per participant visit.
+ * `data/wide.csv` is a wide (547 column) format CSV with a row per participant visit.
 The columns include individual measures for various surveys (behavioral) and brain (MR and PET scan) data.
 
-`data/mtr_striatum_258_QC.csv` - MTR ROI mean and voxel coverage count ("NZmean") and QC (manual quality check binarized 1=pass, 0=fail)
+ * `data/mtr_striatum_258_QC.csv` - MTR ROI mean and voxel coverage count ("NZmean") and QC (manual quality check binarized 1=pass, 0=fail)
 
-`data/conn_adj*.csv` row per visit CSV files. A file per MR task type: rest1, task background, rest2. Columns are the widened (2d to 1d) upper triangle of each visits fisher-z transformed correlation adjacency matrix. This is the mean BOLD time series with each of 23 ROIS correlated to one another ( 23 choose 2 = 253). Fixation from 6 consecutive task aquistions are extracted and combined to make the "background" set. 
+ * `data/conn_adj*.csv` row per visit CSV files. A file per MR task type: rest1, task background, rest2. Columns are the widened (2d to 1d) upper triangle of each visits fisher-z transformed correlation adjacency matrix. This is the mean BOLD time series with each of 23 ROIS correlated to one another ( 23 choose 2 = 253). Fixation from 6 consecutive task aquistions are extracted and combined to make the "background" set. 
+   * also see `data/conn_*.pkl` for pre-made (and untested) pyradigm data structure:  `reloaded = RegrDataset('data/conn_rest1.pkl')`
+
 
 ### wide.csv
 
@@ -43,8 +45,8 @@ upps_df = pet.col_subset('^uppsp_')
 upps_df.columns # ['sesid', 'age', 'upps_pre', 'upps_pers', 'upps_ss', 'upps_pu', 'upps_tot', 'upps_negurg']
 
 # also include other confound columns (works same for add_subest_to and col_subset)
-upps_df = pet.col_subset('sex|^uppsp_')
-upps_df.columns # ['sesid', 'age', 'sex, 'upps_pre', ...]
+upps_df = pet.col_subset('^sex|^uppsp_', 'uppsp_upps')
+upps_df.columns # ['sesid', 'age', 'sex', 'pre', ...]
 
 ```
 
@@ -54,13 +56,12 @@ upps_df.columns # ['sesid', 'age', 'sex, 'upps_pre', ...]
 * *sessionid*/*sesid*  session identifier unique for visit year. Behavioral and scan may happen on separate days. These will still have the same sesid.
 * *vdate* MR visit date, *behavedate* date of behavioral battery (RT18, UPPS, YSR/ASR), *dtbzdate* may have returned if the scanner portion did not complete. this is the date MR was resumed. few have separate vdate and dtbzdate.
 * *ROI*  brain region of interest. Anatomical or functionally defined region composed of many voxels. Voxel values are often averaged within this region.
-* *Rac* PET radio tracker administered first
-* *taT2* time averaged T2\* - average of all the BOLD signal time course.
-* *MTR* magnetic transfer ratio
-* *DTBZ* PET radio tracker administered second
-* *PET* 
 * *MR* 
+* *taT2* time averaged T2\* - average of all the BOLD signal time course.
+* *R2'* R2 prime
+* *MTR* magnetic transfer ratio
 * *BOLD* 
-* *RT18*
-* *UPPS*
 * *ASY/YSR* adult/youth self report. 2 sets of questions, depending on age of participant.
+* *PET* 
+* *DTBZ* PET radio tracker administered second. vessicular monoamine transpoter/DA
+* *Rac* Raclopride PET radio tracker administered first
