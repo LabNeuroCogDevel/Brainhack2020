@@ -12,12 +12,24 @@ The thousands of columns include individual measures for various surveys (behavi
 
 
 ```python
+from pyradigm import RegressionDataset as RegrDataset
 from pet_data import PET
-main_data = PET('data/merged_data.csv')
+pet = PET('data/merged_data.csv')
+# see pet.widedf.shape: 384 visits with 6,987 measures
 
+##  get sesid, age, and all the uppsp measures
+
+# pyradigm
 upps = RegrDataset()                                                                                           
 upps.description = "Urgency, Premeditation (lack of), Perseverance (lack of), Sensation Seeking, Positive Urgency, Impulsive Behavior Scale"
-main_data.add_subset_to(upps, '^uppsp_') 
+pet.add_subset_to(upps, '^uppsp_') 
+# Urgency, Premeditation (lack of), Perseverance (lack of), Sensation Seeking, Positive Urgency, Impulsive Behavior Scale 
+# 337 samplets, 6 features  
+
+# or as dataframe
+upps_df = pet.col_subset('^uppsp_')
+upps_df.columns # ['sesid', 'age', 'upps_pre', 'upps_pers', 'upps_ss', 'upps_pu', 'upps_tot', 'upps_negurg']
+
 
 ```
 
