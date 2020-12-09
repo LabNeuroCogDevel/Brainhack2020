@@ -227,6 +227,16 @@ def pyradigms_from_adj(main_data):
     
     return FCds
 
+def bool_regex(p, x):
+    return bool(re.search(p, x))
+
+def pairs_of_interest(names):
+    "want striatal rois. OFC has coverage issues?"
+    include = 'caudate|putamen|NAC|vent'
+    exclude = 'OFC'
+    return [bool_regex(include, x) and not bool_regex(exclude,x) for x in names] 
+  
+
 if __name__ == "__main__":
     main_data = PET('data/wide.csv')
     # functional connectivity ROIs are the same across background and rest
@@ -236,6 +246,20 @@ if __name__ == "__main__":
     # save as pickle to import instead of aviable csv files
     for k in FCds.keys():
         FCds[k].save(f'data/conn_{k}.pkl') 
+
+        # remove auxiliary rois
+        # keep_pairs can probably be pulled out. all should have the same features
+        keep_pairs = pairs_of_interest(FCds[k].feature_names)
+        ds_sub = FCds[k].get_feature_subset(keep_pairs)
+
+        # remove nan ages
+        (X, y, l) = FCds[k].data_and_targets()
+        badage = l[np.isnan(y)]
+        for i in badage:
+            ds_sub.del_samplet(i)
+        ds_sub.save(f'data/conn_{k}_subset.pkl')
+        
+
     # reloaded = RegrDataset('data/conn_rest1.pkl')
     # assert reloaded == FCds['rest1']
     #
@@ -245,6 +269,7 @@ if __name__ == "__main__":
     upps = RegrDataset()
     upps.description = "Urgency, Premeditation (lack of), Perseverance (lack of), Sensation Seeking, Positive Urgency, Impulsive Behavior Scale"
     main_data.add_subset_to(upps, '^uppsp_')
+
 
     
     # error (20201208)
